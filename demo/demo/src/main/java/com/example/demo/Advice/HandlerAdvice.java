@@ -1,5 +1,6 @@
 package com.example.demo.Advice;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class HandlerAdvice {
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<ErrorDto> badRequest(MethodArgumentNotValidException exception){
-        ErrorDto error = new ErrorDto(exception);
+        List<ErrorDto> error = exception.getFieldErrors().stream().map(e-> new ErrorDto(e)).toList();
 
         return new ResponseEntity<ErrorDto>(error , HttpStatus.BAD_REQUEST);
 
