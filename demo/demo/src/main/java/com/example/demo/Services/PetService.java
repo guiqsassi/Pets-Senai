@@ -41,19 +41,26 @@ public class PetService {
         repository.deleteById(id);
     }
 
-    public List<PetOutputDto> list(Pageable page){
+    public List<PetOutputDto> listPage(Pageable page){
         var pets = repository.findAll(page).stream().map(p-> new PetOutputDto(p)).toList();
         return pets;
     }
 
-    public Pet read(Long id){
-        if(repository.existsById(id)){
-            return repository.findById(id).get();
-        }
-        else{
-            return null;
-        }
+    public List<PetOutputDto> list(String name){
+        if(name == ""){
+        var pets = repository.findAll().stream().map(p-> new PetOutputDto(p)).toList();
+        return pets;
+    }else{
+        var pets = repository.findByName(name).stream().map(p-> new PetOutputDto(p)).toList();
+        return pets;
+    }
+}
+ 
+
+    public PetOutputDto read(Long id){
+            return new PetOutputDto(repository.findById(id).get());
       
 
     }
+
 }

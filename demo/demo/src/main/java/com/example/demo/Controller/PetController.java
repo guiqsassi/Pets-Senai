@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Models.Pet;
@@ -40,14 +42,21 @@ public class PetController {
         ResponseEntity<PetOutputDto> resposta = new ResponseEntity<>(petCriado, HttpStatus.CREATED);
         return resposta;
     }
+    @PostMapping("/findByName")
+    public ResponseEntity<List<PetOutputDto>> list(@RequestParam String name ){
 
-    @GetMapping
-    public ResponseEntity<List<PetOutputDto>> getAll(Pageable page){
+        List<PetOutputDto> petCriado = service.list(name);
 
-        List<PetOutputDto> pets = service.list(page);
-        ResponseEntity<List<PetOutputDto>> resposta = new ResponseEntity<>(pets, HttpStatus.OK);
+        ResponseEntity<List<PetOutputDto>> resposta = new ResponseEntity<>(petCriado, HttpStatus.CREATED);
         return resposta;
     }
+    // @GetMapping
+    // public ResponseEntity<List<PetOutputDto>> getAll(Pageable page){
+
+    //     List<PetOutputDto> pets = service.list(page);
+    //     ResponseEntity<List<PetOutputDto>> resposta = new ResponseEntity<>(pets, HttpStatus.OK);
+    //     return resposta;
+    // }
     @PutMapping
     public ResponseEntity<Pet> updatePet(@RequestBody Pet pet){
 
@@ -61,6 +70,13 @@ public class PetController {
         service.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<PetOutputDto> read(@PathVariable Long id){
+
+        PetOutputDto petCriado = service.read(id);
+
+        return new ResponseEntity<PetOutputDto>(petCriado, HttpStatus.OK);
     }
 
 }

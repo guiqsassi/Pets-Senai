@@ -32,15 +32,15 @@ public class UserServices {
             return null;
         }
     }
-
-    @Transactional
     public void delete(Long id) {
         repository.deleteById(id);
     }
+
     public List<User> list(){
         List<User> users = repository.findAll();
         return users;
     }
+
     public User read(Long id){
         if(repository.existsById(id)){
             return repository.findById(id).get();
@@ -49,5 +49,8 @@ public class UserServices {
             return null;
         }
     }
-    
+    public User findByEmail(String email){
+        User user = repository.findByEmail(email).get();
+        return user;
+    }
 }
