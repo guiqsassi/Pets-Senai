@@ -1,6 +1,11 @@
 package com.example.demo.Models;
 
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 
 import jakarta.persistence.Entity;
@@ -20,7 +25,7 @@ import lombok.Setter;
 @Entity
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class User {
+public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -38,4 +43,40 @@ public class User {
     private UserStatus UserStatus;
     @OneToOne(optional = true)
     private Address address;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        // TODO Auto-generated method stub
+        return null;
+        // throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+        // throw new UnsupportedOperationException("Unimplemented method 'isAccountNonExpired'");
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        // TODO Auto-generated method stub
+        return true;
+        // throw new UnsupportedOperationException("Unimplemented method 'isAccountNonLocked'");
+    
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        // TODO Auto-generated method stub
+        return true;
+        // throw new UnsupportedOperationException("Unimplemented method 'isCredentialsNonExpired'");
+    }
+    @Override
+    public boolean isEnabled() {
+        // TODO Auto-generated method stub
+        return true;
+        // throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
+    }
+    @Override
+    public String getUsername(){
+        return this.email;
+    }
 }

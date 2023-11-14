@@ -20,10 +20,10 @@ public class HandlerAdvice {
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<ErrorDto> badRequest(MethodArgumentNotValidException exception){
+    public ResponseEntity< List<ErrorDto>> badRequest(MethodArgumentNotValidException exception){
         List<ErrorDto> error = exception.getFieldErrors().stream().map(e-> new ErrorDto(e)).toList();
 
-        return new ResponseEntity<ErrorDto>(error , HttpStatus.BAD_REQUEST);
+        return new ResponseEntity< List<ErrorDto>>(error , HttpStatus.BAD_REQUEST);
 
     }
 }

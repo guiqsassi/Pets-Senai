@@ -1,9 +1,6 @@
 package com.example.demo.dtos;
 
-import org.yaml.snakeyaml.constructor.Construct;
-
 import com.example.demo.Models.Pet;
-
 import  com.example.demo.Models.Status;
 
 
